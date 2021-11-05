@@ -32,7 +32,7 @@ tokens = MusicXML_to_tokens('input_score.musicxml')
 - Key Signature
 - Time Signature
 - Note
-  - note name (+ accidentals) / length / stem direction / beam / tie  
+  - note name (+ accidental) / length / stem direction / beam / tie  
 - Rest
   - length
 
