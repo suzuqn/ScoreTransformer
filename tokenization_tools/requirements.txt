@@ -1,0 +1,2 @@
+beautifulsoup4==4.9.3
+pretty-midi==0.2.9
