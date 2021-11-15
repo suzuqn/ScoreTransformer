@@ -38,8 +38,8 @@ tokens = MusicXML_to_tokens('input_score.musicxml')
 
 ### Requirements
 
-Python 3.x
+Python 3.6+
 
-- beautifulsoup4 (4.9.3)
+- beautifulsoup4 (4.6.3)
 - pretty_midi (0.2.9)
 
