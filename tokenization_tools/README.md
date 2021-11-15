@@ -10,9 +10,11 @@ This directory contains the tokenizer and de-tokenizer between MusicXML and prop
 
 #### requirements
 
+Python 3.6+
+
 - **tokenizer**
-  - beautifulsoup4 (4.9.3)
+  - beautifulsoup4 (4.6.3)
   - pretty_midi (0.2.9)
+
 - **de-tokenizer**
   - music21 (6.7.1)
-
