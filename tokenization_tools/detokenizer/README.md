@@ -35,7 +35,7 @@ s.write('musicxml', 'generated_score')
 
 ### Requirements
 
-Python 3.x
+Python 3.6+
 
 - music21 (6.7.1)
 
