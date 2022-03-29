@@ -9,5 +9,5 @@ Project page: https://score-transformer.github.io/
 ## Overview
 
 This repository provides:
-- **Tokenization tools** between MusicXML scores and score tokens
-- A **metric** used in the papers
+- [**Tokenization tools**](tokenization_tools) between MusicXML scores and score tokens
+- A [**metric**](metric) used in the papers
