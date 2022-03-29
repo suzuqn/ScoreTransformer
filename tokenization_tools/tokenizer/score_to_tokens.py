@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+from bs4.element import Tag
 from fractions import Fraction
 import pretty_midi
 
@@ -34,16 +35,17 @@ def attribute_to_token(child): # clef, key signature, and time signature
         else:
             return f'key_natural_{key}'
     elif type_ == 'time':
-        if child.contents[1].text == '2':
-            return f'time_{int(child.contents[0].text)*2}/{int(child.contents[1].text)*2}'
-        elif int(child.contents[1].text) > 4:
-            fraction = str(Fraction(int(child.contents[0].text), int(child.contents[1].text)))
+        times = [int(c.text) for c in child.contents if isinstance(c, Tag)] # excluding '\n'
+        if times[1] == 2:
+            return f'time_{times[0]*2}/{times[1]*2}'
+        elif times[1] > 4:
+            fraction = str(Fraction(times[0], times[1]))
             if int(fraction.split('/')[1]) == 2: # X/2
                 return f"time_{int(fraction.split('/')[0])*2}/{int(fraction.split('/')[0])*2}"
             else:
                 return 'time_' + fraction
         else:
-            return f'time_{child.contents[0].text}/{child.contents[1].text}'
+            return f'time_{times[0]}/{times[1]}'
 
 def aggregate_notes(voice_notes): # notes to chord
     for note in voice_notes[1:]:
@@ -69,7 +71,7 @@ def note_to_tokens(note, divisions=8, note_name=True): # notes and rests
     for pitch in note.find_all('pitch'):
         if note_name:
             if pitch.alter:
-                alter_to_symbol= {'-2': 'bb', '-1': 'b', '1': '#', '2': '##'}
+                alter_to_symbol= {'-2': 'bb', '-1': 'b', '0':'', '1': '#', '2': '##'}
                 tokens.append(f"note_{pitch.step.text}{alter_to_symbol[pitch.alter.text]}{pitch.octave.text}")
             else:
                 tokens.append(f"note_{pitch.step.text}{pitch.octave.text}")
@@ -107,7 +109,7 @@ def element_segmentation(measure, soup, staff=None): # divide elements into thre
             if element.chord: # rewind for concurrent notes
                 position -= last_duration
 
-            if int(element.staff.text) == staff:
+            if element.staff and int(element.staff.text) == staff:
                 voice_starts[voice] = min(voice_starts[voice], position) if voice in voice_starts else position
                 start_tag = soup.new_tag('start')
                 start_tag.string = str(position)
@@ -115,7 +117,7 @@ def element_segmentation(measure, soup, staff=None): # divide elements into thre
 
             position += duration
 
-            if int(element.staff.text) == staff:
+            if element.staff and int(element.staff.text) == staff:
                 voice_ends[voice] = max(voice_ends[voice], position) if voice in voice_ends else position
                 end_tag = soup.new_tag('end')
                 end_tag.string = str(position)
@@ -137,8 +139,8 @@ def element_segmentation(measure, soup, staff=None): # divide elements into thre
             element.append(end_tag)
 
     # voice section
-    voice_start = sorted(voice_starts.values())[1]
-    voice_end = sorted(voice_ends.values(), reverse=True)[1]
+    voice_start = sorted(voice_starts.values())[1] if voice_starts else 0
+    voice_end = sorted(voice_ends.values(), reverse=True)[1] if voice_ends else 0
 
     pre_voice_elements, post_voice_elements, voice_elements = [], [], []
     for element in measure.contents:
@@ -150,12 +152,15 @@ def element_segmentation(measure, soup, staff=None): # divide elements into thre
             if element.staff and int(element.staff.text) != staff:
                 continue
 
-        if int(element.end.text) <= voice_start:
-            pre_voice_elements.append(element)
-        elif voice_end <= int(element.start.text):
-            post_voice_elements.append(element)
+        if voice_starts or voice_ends:
+            if int(element.end.text) <= voice_start:
+                pre_voice_elements.append(element)
+            elif voice_end <= int(element.start.text):
+                post_voice_elements.append(element)
+            else:
+                voice_elements.append(element)
         else:
-            voice_elements.append(element)
+            pre_voice_elements.append(element)
 
     return pre_voice_elements, voice_elements, post_voice_elements
 
@@ -166,7 +171,7 @@ def measures_to_tokens(measures, soup, staff=None, note_name=True):
 
         tokens.append('bar')
         if staff is not None:
-            notes = [n for n in measure.find_all('note') if int(n.staff.text) == staff]
+            notes = [n for n in measure.find_all('note') if n.staff and int(n.staff.text) == staff]
         else:
             notes = measure.find_all('note')
 
@@ -209,7 +214,7 @@ def measures_to_tokens(measures, soup, staff=None, note_name=True):
         else:
             for element in measure.contents:
                 if staff is not None:
-                    if element.staff and int(element.staff.text) != staff:
+                    if element.name in ('attributes', 'note') and element.staff and int(element.staff.text) != staff:
                         continue
                 if element.name == 'attributes':
                     attr_tokens, div = attributes_to_tokens(element, staff)
