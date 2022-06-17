@@ -4,10 +4,10 @@ Tokenizer creates token sequences from musical scores, utilizing [Beautiful Soup
 
 ## Usage
 
-#### 1. import "score_to_tokens.py"
+#### 1. import
 
 ```python
-from score_to_tokens import *
+from score_to_tokens import MusicXML_to_tokens
 ```
 
 #### 2. pass a score path to "MusicXML_to_tokens" function
