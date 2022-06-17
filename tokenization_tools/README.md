@@ -1,6 +1,6 @@
 # Tokenization tools
 
-This directory contains the tokenizer and de-tokenizer between MusicXML and proposed score token representation.
+This directory contains the tokenizer and de-tokenizer between **MusicXML** and proposed **score token** representation.
 
 - [**tokenizer**](tokenizer)
   - MusicXML -> Score tokens
