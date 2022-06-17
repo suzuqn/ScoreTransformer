@@ -4,13 +4,13 @@ Detokenizer builds musical scores from token sequences, utilizing [music21](http
 
 ## Usage
 
-#### 1. import "tokens_to_score.py"
+#### 1. import
 
 ```python
-from tokens_to_score import *
+from tokens_to_score import tokens_to_score
 ```
 
-#### 2. pass token sequence (as a string) to "tokens_to_score" function
+#### 2. pass token sequence (as a string) to the function
 
 ```Python
 s = tokens_to_score(token_sequence)
@@ -19,7 +19,7 @@ s = tokens_to_score(token_sequence)
 - s : music21 Score object 
 
 
-#### 3. use ".write" method to write score into a MusicXML file 
+#### 3. write score into a MusicXML file with ".write" method (of music21 object)  
 
 ```python
 s.write('musicxml', 'generated_score')
