@@ -2,10 +2,10 @@
 
 This directory contains the tokenizer and de-tokenizer between MusicXML and proposed score token representation.
 
-- **tokenizer**
+- [**tokenizer**](tokenizer)
   - MusicXML -> Score tokens
 
-- **de-tokenizer**
+- [**de-tokenizer**](detokenizer)
   - Score tokens -> MusicXML
 
 #### requirements
