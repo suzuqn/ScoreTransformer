@@ -1,2 +1,4 @@
-beautifulsoup4==4.9.3
-pretty-midi==0.2.9
+beautifulsoup4
+lxml
+music21
+pretty-midi
