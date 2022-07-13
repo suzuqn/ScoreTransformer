@@ -37,5 +37,6 @@ s.write('musicxml', 'generated_score')
 
 Python 3.6+
 
-- music21 (6.7.1)
+- music21 (7.3.3)
 
+Note: The library version here are not specified one, but **tested** one.
