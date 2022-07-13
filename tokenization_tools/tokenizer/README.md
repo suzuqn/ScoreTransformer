@@ -42,4 +42,6 @@ Python 3.6+
 
 - beautifulsoup4 (4.6.3)
 - pretty_midi (0.2.9)
+- lxml (4.9.1)
 
+Note: The library versions here are not specified ones, but **tested** ones.
