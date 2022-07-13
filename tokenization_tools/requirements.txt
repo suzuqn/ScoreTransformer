@@ -1,4 +1,4 @@
 beautifulsoup4
 lxml
 music21
-pretty-midi
+pretty_midi
