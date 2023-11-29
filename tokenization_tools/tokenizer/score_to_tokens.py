@@ -216,7 +216,11 @@ def measures_to_tokens(measures, soup, staff=None, note_name=True):
                     tokens += attr_tokens
                     divisions = div if div else divisions
                 elif element.name == 'note':
-                    tokens += note_to_tokens(element, divisions, note_name)
+                    if divisions == 0:
+                        tokens += note_to_tokens(element, note_name)
+                    else:
+                        tokens += note_to_tokens(element, divisions, note_name)
+                        
         else:
             for element in measure.contents:
                 if staff is not None:
