@@ -189,7 +189,10 @@ def measures_to_tokens(measures, soup, staff=None, note_name=True):
                     tokens += attr_tokens
                     divisions = div if div else divisions
                 elif element.name == 'note':
-                    tokens += note_to_tokens(element, divisions, note_name)
+                    if divisions == 0:
+                        tokens += note_to_tokens(element, note_name)
+                    else:
+                        tokens += note_to_tokens(element, divisions, note_name)
 
             if voice_elements:
                 for voice in voices:
@@ -201,7 +204,10 @@ def measures_to_tokens(measures, soup, staff=None, note_name=True):
                                 tokens += attr_tokens
                                 divisions = div if div else divisions
                             elif element.name == 'note':
-                                tokens += note_to_tokens(element, divisions, note_name)
+                                if divisions == 0:
+                                    tokens += note_to_tokens(element, note_name)
+                                else:
+                                    tokens += note_to_tokens(element, divisions, note_name)
                     tokens.append('</voice>')
 
             for element in post_voice_elements:
@@ -221,7 +227,10 @@ def measures_to_tokens(measures, soup, staff=None, note_name=True):
                     tokens += attr_tokens
                     divisions = div if div else divisions
                 elif element.name == 'note':
-                    tokens += note_to_tokens(element, divisions, note_name)
+                    if divisions == 0:
+                        tokens += note_to_tokens(element, note_name)
+                    else:
+                        tokens += note_to_tokens(element, divisions, note_name)
 
     return tokens
 
