@@ -15,6 +15,7 @@ Project page: https://score-transformer.github.io/
 
 This repository provides:
 - [**Tokenization tools**](tokenization_tools) between MusicXML scores and score tokens
+  - **note: updated version is available [here](https://github.com/suzuqn/ScoreRearrangement)!**
 - A [**metric**](metric) used in the papers
 
 ## Citation
